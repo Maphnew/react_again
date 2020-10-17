@@ -6,7 +6,7 @@ console.log("This app is running~!~!~!");
 var app = {
     title: 'Indecision App',
     subtitle: 'Put your life in the hands of a computer',
-    options: ['One', 'Two']
+    options: ['One', 'Two', 'Three']
 };
 var template = React.createElement(
     'div',
@@ -24,20 +24,12 @@ var template = React.createElement(
     React.createElement(
         'p',
         null,
-        app.options.length > 0 ? React.createElement(
-            'ol',
-            null,
-            React.createElement(
-                'li',
-                null,
-                app.options[0]
-            ),
-            React.createElement(
-                'li',
-                null,
-                app.options[1]
-            )
-        ) : 'No options'
+        app.options && app.options.length > 0 ? 'Here are options' : 'No options'
+    ),
+    React.createElement(
+        'p',
+        null,
+        app.options.length
     ),
     React.createElement(
         'ol',

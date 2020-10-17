@@ -4,17 +4,14 @@ console.log("This app is running~!~!~!");
 var app = {
     title: 'Indecision App',
     subtitle: 'Put your life in the hands of a computer',
-    options: ['One', 'Two']
+    options: ['One', 'Two', 'Three']
 }
 var template = (
 <div>
     <h1>{app.title}</h1>
     {app.subtitle && <p>{app.subtitle}</p>}
-    <p>{app.options.length > 0 ? (<ol>
-            <li>{app.options[0]}</li>
-            <li>{app.options[1]}</li>
-        </ol>) : 'No options'}
-    </p>
+    <p>{app.options && app.options.length > 0 ? 'Here are options' : 'No options'}</p>
+    <p>{app.options.length}</p>
     <ol>
         <li>Item one</li>
         <li>Item two</li>
