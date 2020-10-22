@@ -24,6 +24,12 @@ const removeAll = () => {
     render();
 }
 
+const onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * app.options.length)
+    const option = app.options[randomNum]
+    alert(option)
+}
+
 var appRoot = document.getElementById('app')
 // JSX: Objects aren't supported
 // Strings, Numbers, Booleans, undefined and null
@@ -34,8 +40,8 @@ var template = (
 <div>
     <h1>{app.title}</h1>
     {app.subtitle && <p>{app.subtitle}</p>}
-    <p>{app.options && app.options.length > 0 ? 'Here are options' : 'No options'}</p>
-    <p>{app.options.length}</p>
+    <p>{app.options.length > 0 ? 'Here are options' : 'No options'}</p>
+    <button disabled={app.options.length === 0} onClick={onMakeDecision}>What should I do?</button>
     <button onClick={removeAll}>Remove All</button>
     {
         /*numbers.map((number) => {

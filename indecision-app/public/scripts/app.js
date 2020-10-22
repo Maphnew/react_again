@@ -26,6 +26,12 @@ var removeAll = function removeAll() {
     render();
 };
 
+var onMakeDecision = function onMakeDecision() {
+    var randomNum = Math.floor(Math.random() * app.options.length);
+    var option = app.options[randomNum];
+    alert(option);
+};
+
 var appRoot = document.getElementById('app');
 // JSX: Objects aren't supported
 // Strings, Numbers, Booleans, undefined and null
@@ -48,12 +54,12 @@ var render = function render() {
         React.createElement(
             'p',
             null,
-            app.options && app.options.length > 0 ? 'Here are options' : 'No options'
+            app.options.length > 0 ? 'Here are options' : 'No options'
         ),
         React.createElement(
-            'p',
-            null,
-            app.options.length
+            'button',
+            { disabled: app.options.length === 0, onClick: onMakeDecision },
+            'What should I do?'
         ),
         React.createElement(
             'button',
