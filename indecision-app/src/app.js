@@ -25,7 +25,10 @@ const removeAll = () => {
 }
 
 var appRoot = document.getElementById('app')
-
+// JSX: Objects aren't supported
+// Strings, Numbers, Booleans, undefined and null
+ 
+const numbers = [55, 101, 1000]
 const render = () => {
 var template = (
 <div>
@@ -34,9 +37,16 @@ var template = (
     <p>{app.options && app.options.length > 0 ? 'Here are options' : 'No options'}</p>
     <p>{app.options.length}</p>
     <button onClick={removeAll}>Remove All</button>
+    {
+        /*numbers.map((number) => {
+            return <p key={number}>Number : {number}</p>
+        })*/
+    }
     <ol>
-        <li>Item one</li>
-        <li>Item two</li>
+        {/* map over app.options getting back an array of lis (set key and text) */}
+        {
+            app.options.map((option) => <li key={option}>{option}</li>)
+        }
     </ol>
     <form onSubmit={onFormSubmit}>
         <input type="text" name="option"/>
