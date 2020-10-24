@@ -9,6 +9,15 @@ class IndecisionApp extends React.Component {
             options: props.options
         }
     }
+    componentDidMount() {
+        console.log('componentDidMount')
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log('componentDidUpdate')
+    }
+    componentWillUnmount() {
+        console.log('componentWillUnmount')
+    }
     handleDeleteOptions() {
         this.setState(() => ({ options: [] }));
     }
@@ -58,7 +67,7 @@ class IndecisionApp extends React.Component {
 
 IndecisionApp.defaultProps = {
     options: []
-}
+};
 
 const Header = (props) => {
     return (
@@ -67,11 +76,11 @@ const Header = (props) => {
             {props.subtitle && <h2>{props.subtitle}</h2>}
         </div>
     )
-}
+};
 
 Header.defaultProps = {
     title: 'Indecision'
-}
+};
 
 const Action = (props) => {
     return (
@@ -84,7 +93,7 @@ const Action = (props) => {
             </button>
         </div>
     )
-}
+};
 
 const Options = (props) => {
     return (
