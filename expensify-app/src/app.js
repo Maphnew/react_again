@@ -13,7 +13,7 @@ const store = configureStore();
 
 store.dispatch(addExpense({
     description: 'Water bill',
-    amount: 400
+    amount: 4000
 }));
 
 store.dispatch(addExpense({
@@ -24,7 +24,7 @@ store.dispatch(addExpense({
 store.dispatch(setTextFilter('water'));
 
 setTimeout(() => {
-    store.dispatch(setTextFilter('rent'));
+    store.dispatch(setTextFilter('bill'));
 }, 3000)
 
 
