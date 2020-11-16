@@ -5324,14 +5324,310 @@ test('should set endDate filter', () => {
 117. Testing Expenses Reducer
 15분
 
+- Set fixfures/expenses.js
+```JS
+import moment from 'moment';
+
+export default [{
+    id: '1',
+    description: 'Gum',
+    note: '',
+    amount: 195,
+    createdAt: 0
+}, {
+    id: '2',
+    description: 'Rent',
+    note: '',
+    amount: 109500,
+    createdAt: moment(0).subtract(4, 'days').valueOf()
+}, {
+    id: '3',
+    description: 'Credit Card',
+    note: '',
+    amount: 4500,
+    createdAt: moment(0).add(4, 'days').valueOf()
+}]
+
+```
+
+- test expenses reducer
+- redux @@INIT
+
+```JS
+// tests/reducers/expenses.test.js
+import expensesReducer from '../../reducers/expenses';
+import expenses from '../fixtures/expenses';
+import moment from 'moment';
+
+test('should set default state', () => {
+    const state = expensesReducer(undefined, {
+        type: '@@INIT'
+    });
+    expect(state).toEqual([])
+});
+
+test('should remove expenses by id', () => {
+    const action = {
+        type: 'REMOVE_EXPENSE',
+        id: expenses[1].id
+    };
+    const state = expensesReducer(expenses, action);
+    expect(state).toEqual([
+        expenses[0],
+        expenses[2]
+    ]);
+});
+
+test('should not remove expenses if id not found', () => {
+    const action = {
+        type: 'REMOVE_EXPENSE',
+        id: '-1'
+    };
+    const state = expensesReducer(expenses, action);
+    expect(state).toEqual(expenses);
+});
+
+test('should add an expense', () => {
+    const expense = {
+        id: '100',
+        description: 'Desk',
+        note: '',
+        amount: 123500,
+        createdAt: moment(0).subtract(4, 'days')
+    }
+    const action = {
+        type: 'ADD_EXPENSE',
+        expense
+    }
+    const state = expensesReducer(expenses, action);
+    expect(state).toEqual([
+        ...expenses,
+        expense
+    ])
+});
+
+test('should edit an expense', () => {
+    const action = {
+        type: 'EDIT_EXPENSE',
+        id: '2',
+        updates: {
+            description: 'Bike'
+        }
+    };
+    const state = expensesReducer(expenses, action)
+    expect(state[1].description).toBe('Bike')
+})
+
+test('should not edit expense if expense not found', () => {
+    const action = {
+        type: 'EDIT_EXPENSE',
+        id: '0000',
+        updates: {
+            amount: 9999
+        }
+    };
+    const state = expensesReducer(expenses, action);
+    expect(state).toEqual(expenses)
+})
+```
 118. Snapshot Testing
 12분
+
+- Install react-test-renderer
+```shell
+> yarn add react-test-renderer
+```
+- components/Header.test.js
+```JS
+// expensify-app/src/tests/components/Header.test.js
+
+import React from 'react';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
+import Header from '../../components/Header';
+
+test('should render header correctly', () => {
+    const renderer = new ReactShallowRenderer();
+    renderer.render(<Header />);
+    console.log(renderer.getRenderOutput())
+    expect(renderer.getRenderOutput()).toMatchSnapshot();
+}) 
+```
+- expensify-app/src/tests/components/__snapshots__/Header.test.js.snap
+```JS
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render header correctly 1`] = `
+<header>
+  <h1>
+    Expensify
+  </h1>
+  <NavLink
+    activeClassName="is-active"
+    ariaCurrent="true"
+    exact={true}
+    to="/"
+  >
+    Dashboard
+  </NavLink>
+  <NavLink
+    activeClassName="is-active"
+    ariaCurrent="true"
+    to="/create"
+  >
+    Create Expense
+  </NavLink>
+  <NavLink
+    activeClassName="is-active"
+    ariaCurrent="true"
+    to="/help"
+  >
+    Help
+  </NavLink>
+</header>
+`;
+```
 
 119. Enzyme
 22분
 
+- enzyme@3.0.0 for adapter
+- enzyme-adapter-react-16@1.0.0 allows us to specify exactly which version of react we want to test against. And allows the core enzyme library to be a whole lot smaller.
+- raf@3.3.2 - a polyfill for a browser feature known as request animation frame. Short for request animation frame.
+
+```shell
+> yarn add enzyme@3.0.0 enzyme-adapter-react-16@1.0.0 raf@3.3.2
+```
+
+- create a config file
+- go to airbnb.io/enzyme/
+```JS
+// /tests/setupTests.js
+
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({
+    adapter: new Adapter()
+});
+```
+
+- go to jest, configuring jest - setupFiles [array]
+```json
+// /jest.config.json
+
+{
+    "setupFiles": [
+        "raf/polyfill",
+        "<rootDir>/src/tests/setupTests.js"
+    ]
+}
+```
+- change "test" script
+```json
+// package.json
+
+"scripts": {
+    "serve": "live-server public/",
+    "build": "webpack",
+    "dev-server": "webpack-dev-server",
+    "test": "jest --config=jest.config.json"
+  },
+```
+- go to airbnb/enzyme github - http://airbnb.io/enzyme/
+
+```JS
+// tests/components/Header.test.js
+import React from 'react';
+import { shallow } from 'enzyme';
+import Header from '../../components/Header';
+
+test('should render header correctly', () => {
+    const wrapper = shallow(<Header />);
+    // expect(wrapper.find('h1').length).toBe(1);
+    // expect(wrapper.find('h1').text()).toBe('Expensify');
+    expect(wrapper).toMatchSnapshot();
+});
+```
+
+- install enzyme-to-json@3.0.1
+```shell
+> yarn add enzyme-to-json@3.0.1
+```
+```JS
+// tests/components/Header.test.js
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import Header from '../../components/Header';
+
+test('should render header correctly', () => {
+    const wrapper = shallow(<Header />);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+});
+```
+
 120. Snapshot Testing with Dynamic Components
 16분
+
+```JS
+// ExpenseList.test.js
+
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import { ExpenseList } from '../../components/ExpenseList';
+import expenses from '../fixtures/expenses';
+
+test('should render ExpenseList with expenses', () => {
+    const wrapper = shallow(<ExpenseList expenses={expenses}/>);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+});
+
+test('should render ExpenseList with empty message', () => {
+    const wrapper = shallow(<ExpenseList expenses={[]}/>);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+```
+
+```JS
+// ExpenseListItem.test.js
+
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import ExpenseListItem from '../../components/ExpenseListItem';
+import expenses from '../fixtures/expenses';
+
+test('should render ExpenseListItem with expenses', () => {
+    const wrapper = shallow(<ExpenseListItem {...expenses[0]}/>);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+```
+- ExpenseDashboardPage, NotFoundPage
+```JS
+// Dashboard.test.js
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import ExpenseDashboardPage from '../../components/Dashboard';
+
+test('should render dashboard page', () => {
+    const wrapper = shallow(<ExpenseDashboardPage />);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+```
+```JS
+// NotFound.test.js
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import NotFoundPage from '../../components/NotFound';
+
+test('should render not found page correctly', () => {
+    const wrapper = shallow(<NotFoundPage />);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+```
 
 121. Mocking Libraries with Jest
 12분
