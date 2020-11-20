@@ -5631,6 +5631,36 @@ test('should render not found page correctly', () => {
 
 121. Mocking Libraries with Jest
 12분
+- Test for ExpenseForm.test.js
+```JS
+// ExpenseForm.test.js
+
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import ExpenseForm from '../../components/ExpenseForm.js';
+import expenses from '../fixtures/expenses';
+
+test('should render ExpenseForm correctly', () => {
+    const wrapper = shallow(<ExpenseForm />);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+
+test('should render ExpenseForm with expense data correctly', () => {
+    const wrapper = shallow(<ExpenseForm expenses={expenses[2]}/>);
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+```
+- Create a directory __mocks__ and moment.js
+```JS
+// __mocks__/moment.js
+const moment = jest.requireActual('moment');
+
+export default (timestamp = 0) => {
+    return moment(timestamp);
+}
+```
+- And Test
 
 122. Testing User Interaction
 17분
