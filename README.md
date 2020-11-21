@@ -5759,7 +5759,66 @@ test('should set calendar focus on change', () => {
 
 124. Testing AddExpensePage
 15분
+- mapDispatchToProps
+```JS
+// Add.js
 
+import React from 'react';
+import { connect } from 'react-redux';
+import ExpenseForm from './ExpenseForm';
+import { addExpense } from '../actions/expenses';
+
+export class AddExpensePage extends React.Component {
+    onSubmit = (expense) => {
+        this.props.onSubmit(expense);
+        this.props.history.push('/');
+    };
+    render() {
+        return (
+            <div>
+                <h1>Add Expense</h1>
+                <ExpenseForm 
+                    onSubmit={this.onSubmit}
+                />
+            </div>
+        )
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (expense) => dispatch(addExpense(expense))
+})
+
+export default connect(undefined, mapDispatchToProps)(AddExpensePage);
+```
+- beforeEach
+```JS
+// Add.test.js
+
+import React from 'react';
+import {shallow} from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import {AddExpensePage} from '../../components/Add';
+import expenses from '../fixtures/expenses';
+
+let onSubmit, history, wrapper;
+
+beforeEach(() => {
+    onSubmit = jest.fn();
+    history = { push: jest.fn() };
+    wrapper = shallow(<AddExpensePage onSubmit={onSubmit} history={history}/>);
+});
+
+test('should render AddExpensePage correctly', () => {
+    expect(toJSON(wrapper)).toMatchSnapshot();
+});
+
+test('should handle onSubmit', () => {
+    wrapper.find('ExpenseForm').prop('onSubmit')(expenses[1]);
+    expect(history.push).toHaveBeenLastCalledWith('/');
+    expect(onSubmit).toHaveBeenLastCalledWith(expenses[1])
+})
+```
 125. Testing EditExpensePage
 19분
 
