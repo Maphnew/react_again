@@ -5831,15 +5831,239 @@ test('should handle onSubmit', () => {
 
 ## Section 13: Deploying Your Apps
 2시간 44분
+
+128. Section Intro: Deploying Your Apps
+1분
+
+129. Installing Git
+4분
+
+130. What is Git?
+5분
+
+131. Integrating Git into Our Project
+13분
+
+132. Setting up SSH and Github
+18분
+
+133. Production Webpack
+13분
+
+134. Creating Separate CSS Files
+17분
+
+135. A Production Web Server with Express
+13분
+
+136. Deploying with Heroku
+17분
+
+137. Regular vs Development Dependencies
+16분
+
+138. New Feature Workflow
+13분
+
+139. Build It: Adding Total Selector
+17분
+
+140. Build It: Adding Summary Component
+19분
+
 ## Section 14: Firebase 101
 1시간 58분
+
+141. Section Intro: Firebase 101
+1분
+
+142. Getting Firebase
+12분
+
+143. Writing to the Database
+15분
+
+144. ES6 Promises
+15분
+
+145. Promises with Firebase
+11분
+
+146. Removing Data from Firebase
+6분
+
+147. Updating Data
+11분
+
+148. Fetching Data From Firebase
+18분
+
+149. Array Data in Firebase: Part I
+15분
+
+150. Array Data in Firebase: Part II
+15분
+
 ## Section 15: Firebase with Redux
 2시간 6분
+
+151. Section Intro: Firebase with Redux
+1분
+
+152. Asynchronous Redux Actions
+19분
+
+153. Testing Async Redux Actions: Part I
+17분
+
+154. Testing Async Redux Actions: Part II
+12분
+
+155. Creating a Separate Test Database
+21분
+
+156. Heroku Environment Variables
+7분
+
+157. Fetching Expenses: Part I
+13분
+
+158. Fetching Expenses: Part II
+14분
+
+159. Remove Expense
+12분
+
+160. Update Expense
+11분
+
 ## Section 16: Firebase Authentication
 1시간 52분
+
+161. Section Intro: Firebase Authentication
+1분
+
+162. Login Page and Google Authentication
+19분
+
+163. Logging Out
+11분
+
+164. Redirecting Login or Logout
+13분
+
+165. The Auth Reducer
+16분
+
+166. Private Only Routes
+13분
+
+167. Public Only Routes
+5분
+
+168. Private Firebase Data
+19분
+
+169. Data Validation and Deployment
+15분
+
 ## Section 17: Styling Budget App
 2시간 4분
+
+170. Section Intro: Styling Budget App
+1분
+
+171. Styling Login Page
+14분
+
+172. Styling Buttons
+16분
+
+173. Styling Summary Area
+12분
+
+174. Styling List Filters
+10분
+
+175. Styling Inputs
+12분
+
+176. Styling Expense Form
+13분
+
+177. Styling Expenses List: Part I
+13분
+
+178. Styling Expenses List: Part II
+18분
+
+179. Adding Loader
+9분
+
+180. Babel Polyfill
+5분
+
+181. Final Deployment
+2분
+
 ## Section 18: What Now?
 28분
+
+182. Section Into: What Now?
+2분
+
+183. Creating the Final Boilerplate
+18분
+
+184. Budget App Enhancements
+3분
+
+185. Indecision App Enhancements
+1분
+
+186. New App Idea: Blog
+3분
+
+187. Until Next Time
+1분
 ## Section 19: [New!] Hooks, Context, Fragments, and More
 2시간 48분
+
+188. Section Intro
+1분
+
+189. Using Create React App
+17분
+
+190. The useState Hook
+16분
+
+191. useState vs. setState
+12분
+
+192. Complex State with useState
+16분
+
+193. The useEffect Hook
+11분
+
+194. useEffect Dependencies
+12분
+
+195. Cleaning up Effects
+8분
+
+196. The useReducer Hook
+15분
+
+197. The Context API & useContext Hook: Part I
+20분
+
+198. The Context API & useContext Hook: Part II
+17분
+
+199. Fragments
+3분
+
+200. Creating Custom Hooks
+20분
