@@ -6074,7 +6074,53 @@ test('should correctly add up sigle expense', () => {
 ```
 140. Build It: Adding Summary Component
 19분
+- Add one more component & test
+```JS
+// ExpensesSummary.js
+import React from 'react';
+import { connect } from 'react-redux';
+import selectExpensesTotal from '../selectors/expenses-total';
+import selectExpenses from '../selectors/expenses';
+import numeral from 'numeral';
 
+export const ExpensesSummary = ({ expenseCount, expensesTotal }) => {
+    const expenseWord = expenseCount === 1 ? 'expense' : 'expenses';
+    const formattedExpensesTotal = numeral(expensesTotal).format('$0,0.00');
+    return (
+        <div>
+            <h1>Viewing {expenseCount} {expenseWord} totalling {formattedExpensesTotal}</h1>
+        </div>
+    )
+}
+
+const mapStateToProps = (state) => {
+    const visibleExpenses = selectExpenses(state.expenses, state.filters)
+    return {
+        expenseCount : visibleExpenses.length,
+        expensesTotal: selectExpensesTotal(visibleExpenses)
+    }
+}
+
+export default connect(mapStateToProps)(ExpensesSummary);
+```
+```JS
+// ExpensesSummary.test.js
+import React from 'react';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import expenses from '../fixtures/expenses';
+import { ExpensesSummary } from '../../components/ExpensesSummary';
+
+test('should render ExpensesSummary correctly with 1 expense', () => {
+    const wrapper = shallow(<ExpensesSummary  expenseCount={1} expensesTotal={235}/>)
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+
+test('should render ExpensesSummary correctly with multiple expenses', () => {
+    const wrapper = shallow(<ExpensesSummary  expenseCount={23} expensesTotal={23512322}/>)
+    expect(toJSON(wrapper)).toMatchSnapshot();
+})
+```
 ## Section 14: Firebase 101
 1시간 58분
 
