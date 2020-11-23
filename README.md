@@ -5862,6 +5862,150 @@ test('should handle onSubmit', () => {
 137. Regular vs Development Dependencies
 16분
 
+```JSON
+// package.json
+{
+  "name": "expensify",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Maphnew Kim",
+  "license": "MIT",
+  "scripts": {
+    "build:dev": "webpack",
+    "build:prod": "webpack -p --env production",
+    "dev-server": "webpack-dev-server",
+    "test": "jest --config=jest.config.json",
+    "start": "node server/server.js",
+    "heroku-postbuild": "yarn run build:prod"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.7",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "babel-cli": "6.24.1",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-loader": "7.1.1",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "0.28.4",
+    "express": "^4.17.1",
+    "extract-text-webpack-plugin": "3.0.0",
+    "moment": "2.18.1",
+    "node-sass": "4.13.1",
+    "normalize.css": "7.0.0",
+    "raf": "3.3.2",
+    "react": "^17.0.1",
+    "react-addons-shallow-compare": "15.6.0",
+    "react-dates": "12.7.0",
+    "react-dom": "^17.0.1",
+    "react-modal": "2.2.2",
+    "react-redux": "5.0.5",
+    "react-router-dom": "4.2.2",
+    "redux": "3.7.2",
+    "sass-loader": "7.3.1",
+    "style-loader": "0.18.2",
+    "uuid": "3.1.0",
+    "validator": "^13.1.17",
+    "webpack": "3.1.0"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.0",
+    "webpack-cli": "^4.1.0",
+    "enzyme": "3.0.0",
+    "enzyme-adapter-react-16": "1.0.0",
+    "enzyme-to-json": "3.0.1",
+    "jest": "^26.6.3",
+    "react-test-renderer": "^17.0.1",
+    "webpack-dev-server": "2.5.1"
+  }
+}
+
+```
+
+- install only inside of "dependencies"
+```shell
+> yarn install --production
+```
+- create dist directory
+- modify index.html ( + dist )
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Expensify</title>
+        <link rel="icon" type="image/png" href="./images/favicon.png" />
+        <link rel="stylesheet" type="text/css" href="/dist/styles.css"/>
+    </head>
+    <body>
+        <div id="app">
+
+        </div>
+        <script src="/dist/bundle.js"></script>
+    </body>
+</html>
+```
+- modify path (+ 'dist') in webpack.config file
+```JS
+// webpack.config.js
+
+const path = require('path')
+const ExtractTestPlugin = require('extract-text-webpack-plugin')
+
+module.exports = (env)=> {
+    const isProduction = env === 'production';
+    const CSSExtract = new ExtractTestPlugin('styles.css');
+    return {
+        entry: './src/app.js',
+        output: {
+            path: path.join(__dirname, 'public', 'dist'),
+            filename: 'bundle.js'
+        },
+        module: {
+            rules: [{
+                loader: 'babel-loader',
+                test: /\.js$/,
+                exclude: /node_modules/ 
+            }, {
+                test: /\.s?css$/,
+                use: CSSExtract.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        }
+                    ]
+                })
+            }]
+        },
+        plugins: [
+            CSSExtract
+        ],
+        devtool: isProduction ? 'source-map' : 'inline-source-map',
+        devServer: {
+            contentBase: path.join(__dirname, 'public'),
+            historyApiFallback: true,
+            publicPath: '/dist/'
+        }
+    }
+}
+```
+- .gitignore ( + public/dist/ )
+- build!
+- git push heroku
+- go to https://maph-react-expensify.herokuapp.com/
+
 138. New Feature Workflow
 13분
 
