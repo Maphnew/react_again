@@ -13,6 +13,25 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-firebase.database().ref().set({
-    name: 'Maphnew Kim'
+const database = firebase.database();
+
+database.ref().set({
+    name: 'Maphnew Kim',
+    age: 34,
+    isSingle: false,
+    location: {
+        city: 'Ulsan',
+        country: 'Korea'
+    }
 });
+
+// database.ref().set('This is my data.');
+
+database.ref('age').set(35);
+database.ref('location/city').set('Seoul');
+database.ref('attributes').set({
+    height: 166,
+    weight: 64
+});
+
+console.log('Data changed.')
