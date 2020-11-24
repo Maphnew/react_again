@@ -6130,6 +6130,51 @@ test('should render ExpensesSummary correctly with multiple expenses', () => {
 142. Getting Firebase
 12분
 
+```shell
+> yarn add firebase@8.1.1
+```
+
+- Login firebase.google.com
+- Add firebase for web
+- get the config
+
+```JS
+// src/firebase/firebase.js
+
+import firebase from 'firebase';
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDs_mQfxf5c1t3cDs0v-vfj4tB9JGrp0bY",
+    authDomain: "expensify-e4c88.firebaseapp.com",
+    databaseURL: "https://expensify-e4c88.firebaseio.com",
+    projectId: "expensify-e4c88",
+    storageBucket: "expensify-e4c88.appspot.com",
+    messagingSenderId: "70931864257",
+    appId: "1:70931864257:web:b8839709d9b22fe226d240"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+firebase.database().ref().set({
+    name: 'Maphnew Kim'
+});
+```
+- Import
+```JS
+// app.js
+// ...
+import './firebase/firebase';
+// ...
+```
+- Run dev-server
+```shell
+> npm run dev-server
+```
+- go to http://localhost:8080/
+- go to https://console.firebase.google.com/
+- check the data
+
 143. Writing to the Database
 15분
 
