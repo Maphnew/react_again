@@ -23,15 +23,23 @@ database.ref().set({
         city: 'Ulsan',
         country: 'Korea'
     }
-});
+}).then(() => {
+    console.log('Data is saved');
+}).catch((er) => {
+    console.log('This failed', e);
+})
 
 // database.ref().set('This is my data.');
 
-database.ref('age').set(35);
-database.ref('location/city').set('Seoul');
+// database.ref('age').set(35);
+// database.ref('location/city').set('Seoul');
 database.ref('attributes').set({
     height: 166,
     weight: 64
-});
+}).then(() => {
+    console.log('Data is saved');
+}).catch((e) => {
+    console.log('This failed', e);
+})
 
 console.log('Data changed.')
