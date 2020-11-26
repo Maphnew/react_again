@@ -6300,7 +6300,25 @@ console.log('Data changed.')
 ```
 146. Removing Data from Firebase
 6분
+- Should run localhost:8080 first
+```JS
+// firebase.js
 
+database.ref('isSingle')
+    .remove()
+    .then(() => {
+        console.log('removed')
+    }).catch((e) => {
+        console.log('not removed')
+    });
+```
+- Same set null to remove
+```JS
+// ...
+
+database.ref('isSingle').set(null)
+
+```
 147. Updating Data
 11분
 

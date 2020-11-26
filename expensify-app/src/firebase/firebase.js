@@ -27,19 +27,14 @@ database.ref().set({
     console.log('Data is saved');
 }).catch((er) => {
     console.log('This failed', e);
-})
+});
 
-// database.ref().set('This is my data.');
+// database.ref('isSingle').set(null)
 
-// database.ref('age').set(35);
-// database.ref('location/city').set('Seoul');
-database.ref('attributes').set({
-    height: 166,
-    weight: 64
-}).then(() => {
-    console.log('Data is saved');
-}).catch((e) => {
-    console.log('This failed', e);
-})
-
-console.log('Data changed.')
+// database.ref()
+//     .remove()
+//     .then(() => {
+//         console.log('removed')
+//     }).catch((e) => {
+//         console.log('not removed')
+//     });
