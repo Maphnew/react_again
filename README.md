@@ -6334,6 +6334,28 @@ database.ref().update({
 148. Fetching Data From Firebase
 18분
 
+```JS
+// firebase.js
+
+database.ref().on('value', (snapshot) => {
+    console.log(snapshot.val());
+}, (e) => {
+    console.log('Error with data fetching', e);
+});
+
+setTimeout(() => {
+    database.ref('age').set(29);
+}, 3500);
+
+setTimeout(() => {
+    database.ref().off();
+}, 7000);
+
+setTimeout(() => {
+    database.ref('age').set(30);
+}, 10500);
+```
+
 149. Array Data in Firebase: Part I
 15분
 

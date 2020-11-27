@@ -15,30 +15,73 @@ firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
 
-database.ref().set({
-    name: 'Maphnew Kim',
-    age: 29,
-    stressLevel: 6,
-    job: {
-        title: 'Software developer',
-        company: 'Google'
-    },
-    isSingle: false,
-    location: {
-        city: 'Ulsan',
-        country: 'Korea'
-    }
-}).then(() => {
-    console.log('Data is saved');
-}).catch((er) => {
-    console.log('This failed', e);
+database.ref().on('value', (snapshot) => {
+    const value = snapshot.val()
+    console.log(`${value.name} is a ${value.job.title} at ${value.job.company}`)
+}, (e) => {
+    console.log('Error:', e)
 });
 
-database.ref().update({
-    stressLevel: 9,
-    'job/company': 'Amazon',
-    'location/city': 'Seattle'
-});
+setTimeout(() => {
+    database.ref('name').set('Andrew')
+}, 3000)
+
+
+
+// const onValueChange = database.ref().on('value', (snapshot) => {
+//     console.log(snapshot.val());
+// }, (e) => {
+//     console.log('Error with data fetching', e);
+// });
+
+// setTimeout(() => {
+//     database.ref('age').set(29);
+// }, 3500);
+
+// setTimeout(() => {
+//     database.ref().off(onValueChange);
+// }, 7000);
+
+// setTimeout(() => {
+//     database.ref('age').set(30);
+// }, 10500);
+
+
+// database.ref('location')
+//     .once('value')
+//     .then((snapshot) => {
+//         const val = snapshot.val();
+//         console.log(val);
+//     }).catch((e) => {
+//         console.log('Error fetching data', e)
+//     })
+
+
+
+// database.ref().set({
+//     name: 'Maphnew Kim',
+//     age: 29,
+//     stressLevel: 6,
+//     job: {
+//         title: 'Software developer',
+//         company: 'Google'
+//     },
+//     isSingle: false,
+//     location: {
+//         city: 'Ulsan',
+//         country: 'Korea'
+//     }
+// }).then(() => {
+//     console.log('Data is saved');
+// }).catch((er) => {
+//     console.log('This failed', e);
+// });
+
+// database.ref().update({
+//     stressLevel: 9,
+//     'job/company': 'Amazon',
+//     'location/city': 'Seattle'
+// });
 
 // database.ref('isSingle').set(null)
 
