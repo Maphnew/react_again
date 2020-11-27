@@ -6415,6 +6415,142 @@ database.ref('expenses').on('child_added', (snapshot) => {
 
 152. Asynchronous Redux Actions
 19분
+- redux-thunk
+```shell
+yarn add redux-thunk
+```
+- Use redux-thunk, applyMiddleware, compose in configuresStore.js
+```JS
+// configuresStore.js
+
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import expensesReducer from '../reducers/expenses';
+import filtersReducer from '../reducers/filters';
+import thunk from 'redux-thunk';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export default () => {
+    const store = createStore(
+        combineReducers({
+            expenses: expensesReducer,
+            filters: filtersReducer
+        }),
+        composeEnhancers(applyMiddleware(thunk))
+        // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+    return store;
+};
+
+
+```
+
+- Init firebase
+```JS
+// firebase.js
+
+import firebase from 'firebase';
+import moment from 'moment';
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDs_mQfxf5c1t3cDs0v-vfj4tB9JGrp0bY",
+    authDomain: "expensify-e4c88.firebaseapp.com",
+    databaseURL: "https://expensify-e4c88.firebaseio.com",
+    projectId: "expensify-e4c88",
+    storageBucket: "expensify-e4c88.appspot.com",
+    messagingSenderId: "70931864257",
+    appId: "1:70931864257:web:b8839709d9b22fe226d240"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
+export { firebase, database as default }
+```
+
+- Set action generator - startAddExpense
+```JS
+// action/expenses.js
+
+import uuid from 'uuid';
+import database from '../firebase/firebase';
+
+// ADD_EXPENSE
+export const addExpense = (expense) => ({
+    type: 'ADD_EXPENSE',
+    expense
+})
+
+export const startAddExpense = (expenseData = {}) => {
+    return (dispatch) => {
+        const {
+            description = '',
+            note = '',
+            amount = 0,
+            createdAt = 0
+        } = expenseData;
+        const expense = { description, note, amount, createdAt };
+        database.ref('expenses').push(expense).then((ref) => {
+            dispatch(addExpense({
+                id: ref.key,
+                ...expense
+            }))
+        })
+    }
+};
+
+// REMOVE_EXPENSE
+export const removeExpense = ({ id } ={}) => ({
+    type: 'REMOVE_EXPENSE',
+    id
+});
+
+// EDIT_EXPENSE
+export const editExpense = (id, updates) => ({
+    type: 'EDIT_EXPENSE',
+    id,
+    updates
+})
+
+
+```
+- Modify AddExpensePage(addExpense -> startAddExpense)
+```JS
+// Add.js
+
+import React from 'react';
+import { connect } from 'react-redux';
+import ExpenseForm from './ExpenseForm';
+import { startAddExpense } from '../actions/expenses';
+
+export class AddExpensePage extends React.Component {
+    onSubmit = (expense) => {
+        this.props.startAddExpense(expense);
+        this.props.history.push('/');
+    };
+    render() {
+        return (
+            <div>
+                <h1>Add Expense</h1>
+                <ExpenseForm 
+                    onSubmit={this.onSubmit}
+                />
+            </div>
+        )
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    startAddExpense: (expense) => dispatch(startAddExpense(expense))
+})
+
+export default connect(undefined, mapDispatchToProps)(AddExpensePage);
+```
+
+- Test on localhost:8080 -> firebase.google.com realtime database
+
 
 153. Testing Async Redux Actions: Part I
 17분
