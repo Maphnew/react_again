@@ -6359,6 +6359,32 @@ setTimeout(() => {
 149. Array Data in Firebase: Part I
 15분
 
+```JS
+
+
+database.ref('expenses').push({
+    description: 'rent',
+    note: '',
+    amount: '90000',
+    createdAt: moment(0).toString()
+})
+
+database.ref('expenses').push({
+    description: 'food',
+    note: '',
+    amount: '80000',
+    createdAt: moment(0).toString()
+})
+
+database.ref('expenses').push({
+    description: 'furniture',
+    note: '',
+    amount: '30000',
+    createdAt: moment(0).toString()
+})
+
+```
+
 150. Array Data in Firebase: Part II
 15분
 

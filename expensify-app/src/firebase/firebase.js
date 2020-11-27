@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import moment from 'moment';
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDs_mQfxf5c1t3cDs0v-vfj4tB9JGrp0bY",
@@ -15,16 +16,45 @@ firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
 
-database.ref().on('value', (snapshot) => {
-    const value = snapshot.val()
-    console.log(`${value.name} is a ${value.job.title} at ${value.job.company}`)
-}, (e) => {
-    console.log('Error:', e)
-});
+database.ref('expenses').push({
+    description: 'rent',
+    note: '',
+    amount: '90000',
+    createdAt: moment(0).toString()
+})
 
-setTimeout(() => {
-    database.ref('name').set('Andrew')
-}, 3000)
+database.ref('expenses').push({
+    description: 'food',
+    note: '',
+    amount: '80000',
+    createdAt: moment(0).toString()
+})
+
+database.ref('expenses').push({
+    description: 'furniture',
+    note: '',
+    amount: '30000',
+    createdAt: moment(0).toString()
+})
+
+
+// database.ref('notes/MN6j2icljNfvS6O6vFh').remove()
+
+// database.ref('notes').push({
+//     title: 'To do',
+//     body: 'Go for a run'
+// })
+
+// database.ref().on('value', (snapshot) => {
+//     const value = snapshot.val()
+//     console.log(`${value.name} is a ${value.job.title} at ${value.job.company}`)
+// }, (e) => {
+//     console.log('Error:', e)
+// });
+
+// setTimeout(() => {
+//     database.ref('name').set('Andrew')
+// }, 3000)
 
 
 
