@@ -6322,6 +6322,15 @@ database.ref('isSingle').set(null)
 147. Updating Data
 11분
 
+```JS
+database.ref().update({
+    stressLevel: 9,
+    'job/company': 'Amazon',
+    'location/city': 'Seattle'
+});
+
+```
+
 148. Fetching Data From Firebase
 18분
 

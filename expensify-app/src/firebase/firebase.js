@@ -17,7 +17,12 @@ const database = firebase.database();
 
 database.ref().set({
     name: 'Maphnew Kim',
-    age: 34,
+    age: 29,
+    stressLevel: 6,
+    job: {
+        title: 'Software developer',
+        company: 'Google'
+    },
     isSingle: false,
     location: {
         city: 'Ulsan',
@@ -27,6 +32,12 @@ database.ref().set({
     console.log('Data is saved');
 }).catch((er) => {
     console.log('This failed', e);
+});
+
+database.ref().update({
+    stressLevel: 9,
+    'job/company': 'Amazon',
+    'location/city': 'Seattle'
 });
 
 // database.ref('isSingle').set(null)
