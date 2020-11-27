@@ -6388,6 +6388,25 @@ database.ref('expenses').push({
 150. Array Data in Firebase: Part II
 15분
 
+```JS
+
+// child_removed
+database.ref('expenses').on('child_removed', (snapshot) => {
+    console.log(snapshot.key, snapshot.val())
+});
+
+// child_changed
+database.ref('expenses').on('child_changed', (snapshot) => {
+    console.log(snapshot.key, snapshot.val())
+})
+
+// child_added
+database.ref('expenses').on('child_added', (snapshot) => {
+    console.log(snapshot.key, snapshot.val())
+})
+
+```
+
 ## Section 15: Firebase with Redux
 2시간 6분
 
