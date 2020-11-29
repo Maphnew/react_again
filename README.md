@@ -6554,7 +6554,30 @@ export default connect(undefined, mapDispatchToProps)(AddExpensePage);
 
 153. Testing Async Redux Actions: Part I
 17분
+- Modify some tests
+- yarn add redux-mock-store
+```shell
+> yarn add redux-mock-store
+```
 
+- Promise chaining with test - done()
+```JS
+
+test('should add expense to database and store', (done) => {
+    const store = createMockStore({});
+    const expenseData = {
+        description: 'Mouse',
+        amount: 3000,
+        note: 'This one is better',
+        createdAt: 1000
+    };
+    store.dispatch(startAddExpense(expenseData)).then(() => {
+        expect(1).toBe(1);
+        done();
+    }); 
+})
+
+```
 154. Testing Async Redux Actions: Part II
 12분
 
