@@ -6637,6 +6637,88 @@ test('should add expense with defaults to database and store', (done) => {
 ```
 155. Creating a Separate Test Database
 21분
+- Search "npm cross-env" and install
+- Search "dotenv" and install
+- Add NODE_ENV
+```json
+// package.json
+// ...
+  "scripts": {
+//...
+    "test": "cross-env NODE_ENV=test jest --config=jest.config.json",
+//...
+  },
+```
+- SET .env.test / .env.development
+```
+FIREBASE_API_KEY=****
+FIREBASE_AUTH_DOMAIN=***
+FIREBASE_DATABASE_URL=***
+FIREBASE_PROJECT_ID=****
+FIREBASE_STORAGE_BUCKET=***
+FIREBASE_MESSAGING_SENDER_ID=****
+FIREBASE_APP_ID=****
+```
+- SET webpack.config.js
+```JS
+// webpack.config.js
+
+// ...
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+if(process.env.NODE_ENV === 'test') {
+    require('dotenv').config({ path: '.env.test' });
+} else if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config({ path: '.env.development' });
+}
+
+// ...
+
+        plugins: [
+            CSSExtract,
+            new webpack.DefinePlugin({
+                'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+                'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
+                'process.env.FIREBASE_DATABASE_URL': JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+                'process.env.FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID),
+                'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
+                'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
+                'process.env.FIREBASE_APP_ID': JSON.stringify(process.env.FIREBASE_APP_ID),
+            })
+        ],
+
+```
+- SET firebase/firebase.js
+```JS
+// ...
+
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID
+};
+```
+- Check jest.config.json - setupFiles
+```json
+    "setupFiles": [
+        "raf/polyfill",
+        "<rootDir>/src/tests/setupTests.js"
+    ]
+```
+- SET setupTests.js
+```JS
+// ...
+import DotEnv from 'dotenv';
+
+DotEnv.config({ path: '.env.test' });
+//...
+```
+
+- SET .gitignore .env.test, .env.development
 
 156. Heroku Environment Variables
 7분
