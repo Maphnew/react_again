@@ -6722,6 +6722,39 @@ DotEnv.config({ path: '.env.test' });
 
 156. Heroku Environment Variables
 7분
+- SET heroku config:set
+```shell
+> heroku config
+=== maph-react-expensify Config Vars
+
+> heroku config:set KEY=value
+Setting KEY and restarting ⬢ maph-react-expensify... done, v7
+KEY: value
+
+>heroku config
+=== maph-react-expensify Config Vars
+KEY: value
+
+> heroku config:unset KEY=value
+Unsetting KEY and restarting ⬢ maph-react-expensify... done, v8
+
+>heroku config
+=== maph-react-expensify Config Vars
+```
+```shell
+> heroku config:set FIREBASE_API_KEY=****** FIREBASE_AUTH_DOMAIN=***** FIREBASE_DATABASE_URL=**** FIREBASE_PROJECT_ID=******
+FIREBASE_STORAGE_BUCKET=****** FIREBASE_MESSAGING_SENDER_ID=******* FIREBASE_APP_ID=*******
+
+Setting FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_MESSAGING_SENDER_ID, FIREBASE_APP_ID and restarting ⬢ maph-react-expensify... done, v9
+FIREBASE_API_KEY:             ***********************
+FIREBASE_APP_ID:              ***********************
+FIREBASE_AUTH_DOMAIN:         ***********************
+FIREBASE_DATABASE_URL:        ***********************
+FIREBASE_MESSAGING_SENDER_ID: ***********************
+FIREBASE_PROJECT_ID:          ***********************
+FIREBASE_STORAGE_BUCKET:      ***********************
+```
+- git push origin and heroku
 
 157. Fetching Expenses: Part I
 13분
